@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const isWikipediaArticle = isWikipediaURL(currentTab.url);
   
       if (isWikipediaArticle) {
-        urlDisplay.append("Summary available");
+        urlDisplay.textContent = "Summary available";
       } else {
-        urlDisplay.append("Not a Wikipedia article");
+        urlDisplay.textContent = "Not a Wikipedia article";
       }
     });
   });
