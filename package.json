@@ -1,5 +1,17 @@
 {
+  "name": "gptsummaryapp",
+  "description": "## Overview",
+  "version": "1.0.0",
+  "main": "content.js",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^3.3.1",
     "openai": "^3.2.1"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type":"module"
 }
