@@ -8,6 +8,13 @@
       "default_popup": "popup/popup.html"    
     },
     "permissions": [
-      "tabs"
+      "tabs",
+      "activeTab"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://en.wikipedia.org/wiki/*"],
+        "js": ["contentScript.js"]
+      }
     ]
   }

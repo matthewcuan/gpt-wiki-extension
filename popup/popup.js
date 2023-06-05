@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
       if (isWikipediaArticle) {
         urlDisplay.textContent = "Summary available";
+        chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+          const urlDisplay = document.getElementById("urlDisplay");
+          urlDisplay.textContent.append(message.articleTitle + ": " + message.firstParagraph);
+        });
       } else {
         urlDisplay.textContent = "Not a Wikipedia article";
       }
@@ -16,4 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Check if the URL contains the Wikipedia domain and "/wiki/" in the path
     return url.includes("wikipedia.org") && url.includes("/wiki/");
   }
+
+
   
