@@ -1,7 +1,7 @@
 console.log("scraping")
 
 // Extract the article title
-const articleTitle = document.querySelector("#firstHeading").textContent;
+const title = document.querySelector("#firstHeading").textContent;
 
 // Extract the first paragraph
 // const firstParagraph = document.querySelector("#mw-content-text p").textContent;
@@ -12,7 +12,15 @@ const articleTitle = document.querySelector("#firstHeading").textContent;
 //   firstParagraph: firstParagraph
 // };
 
-console.log(articleTitle)
+console.log(title)
 
 // Send the message to the extension's popup or background script
-chrome.runtime.sendMessage(articleTitle);
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.popUpOpened) {
+        console.log("popup opened")
+        chrome.runtime.sendMessage(title);
+    };
+});
+
+chrome.runtime.sendMessage(title);
