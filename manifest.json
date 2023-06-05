@@ -2,19 +2,21 @@
     "manifest_version": 3,
     "name": "ChatGPT Summary",
     "version": "1.0.0",
-    "action": {
-      "default_title": "Wiki Summary",
-      "default_icon": "assets/images/icon.png",
-      "default_popup": "popup/popup.html"    
-    },
-    "permissions": [
-      "tabs",
-      "activeTab"
-    ],
     "content_scripts": [
       {
         "matches": ["https://en.wikipedia.org/wiki/*"],
         "js": ["contentScript.js"]
       }
-    ]
+    ],
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "scripting"
+    ],
+    "action": {
+      "default_title": "Wiki Summary",
+      "default_icon": "assets/images/icon.png",
+      "default_popup": "popup/popup.html"    
+    }
+    
   }
