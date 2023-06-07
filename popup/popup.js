@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isWikipediaArticle = isWikipediaURL(currentTab.url);
 
     if (isWikipediaArticle) {
-      urlDisplay.textContent = "Summary available";
+      urlDisplay.textContent = "Summary available: ";
       // chrome.tabs.sendMessage(currentTab.id, { popupOpened: true });
     } else {
       urlDisplay.textContent = "Not a Wikipedia article";
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message);
-    urlDisplay.textContent = message;
+    urlDisplay.textContent += message;
   });
 });
   

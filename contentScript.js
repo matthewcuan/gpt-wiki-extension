@@ -18,8 +18,9 @@ console.log(title)
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.popUpOpened) {
-        console.log("popup opened")
-        chrome.runtime.sendMessage(title);
+        console.log("popup opened");
+        sendResponse({ received: true });
+        // chrome.runtime.sendMessage(title);
     };
 });
 
