@@ -18,7 +18,12 @@ To get started:
 
 ```
 git clone https://github.com/matthewcuan/gpt-wiki-summary
+```
+```
 cd gpt-wiki-summary
+```
+```
+npm install
 ```
 
 To run:
