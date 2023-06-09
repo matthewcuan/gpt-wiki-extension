@@ -45,7 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
       sendResponse("Received message in background script:" + message)
       urlDisplay.textContent = "Article Title: " + message;
       summary = document.getElementById("summary");
-      summary.textContent = generateSummary(message)
+      chrome.runtime.sendMessage({ action: "generateSummary", message }, function (response) {
+        if (response.summary) {
+          summary.textContent = response.summary;
+        } else {
+          summary.textContent = response.error;
+        }
+      });
     }     
   });
 });
@@ -57,7 +63,7 @@ function isWikipediaURL(url) {
 
 async function generateSummary(topic) {
   try {
-    const response = await fetch("../api/summarize", {
+    const response = await fetch("../background", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,55 +1,34 @@
-import { Configuration, OpenAIApi } from "openai";
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
-export default async function (req, res) {
-  if (!configuration.apiKey) {
-    res.status(500).json({
-      error: {
-        message: "OpenAI API key not configured, please follow instructions in README.md",
-      }
-    });
-    return;
-  }
-
-  const animal = req.body.topic || '';
-//   if (animal.trim().length === 0) {
-//     res.status(400).json({
-//       error: {
-//         message: "Please enter a valid animal",
-//       }
-//     });
-//     return;
-//   }
-
-  try {
-    const completion = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: generatePrompt(topic),
-      temperature: 0.6,
-    });
-    res.status(200).json({ result: completion.data.choices[0].text });
-  } catch(error) {
-    // Consider adjusting the error handling logic for your use case
-    if (error.response) {
-      console.error(error.response.status, error.response.data);
-      res.status(error.response.status).json(error.response.data);
-    } else {
-      console.error(`Error with OpenAI API request: ${error.message}`);
-      res.status(500).json({
-        error: {
-          message: 'An error occurred during your request.',
-        }
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "generateSummary") {
+    generateSummary(request.topic)
+      .then(summary => {
+        sendResponse({ summary });
+      })
+      .catch(error => {
+        sendResponse({ error: error.message });
       });
-    }
+    return true; // Required to indicate an asynchronous response
   }
-}
+});
 
-function generatePrompt(topic) {
-//   const capitalizedAnimal =
-//     animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-  return `Provide three sentences explaining ${topic}`;
+async function generateSummary(topic) {
+  const response = await fetch("https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions/gpt-3.5-turbo", {
+    method: "POST",
+    headers: {
+      "Authorization": "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",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      prompt: `Summarize ${topic}`,
+      max_tokens: 100
+    })
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    return data.choices[0].text;
+  } else {
+    throw new Error(data.error.message);
+  }
 }
