@@ -11,9 +11,5 @@
       "default_title": "Wiki Summary",
       "default_icon": "assets/images/icon.png",
       "default_popup": "popup/popup.html"    
-    },
-    "background": {
-      "service_worker": "service_worker.js",
-      "type": "module"
     }
   }

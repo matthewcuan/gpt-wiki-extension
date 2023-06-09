@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // executes contentScript
     chrome.scripting.executeScript({
       target: {tabId: currentTab.id},
-      files: ['contentScript.js']
+      files: ['content-script.js']
     });
 
     // gets popup elements
