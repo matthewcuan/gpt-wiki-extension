@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    // gets current tab
+    // Get current tab
     const currentTab = tabs[0];
 
-    
-
-    // gets popup elements
+    // Get popup elements
     console.log(currentTab.id)
     const urlDisplay = document.getElementById("urlDisplay");
     const isWikipediaArticle = isWikipediaURL(currentTab.url);
@@ -13,7 +11,23 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isWikipediaArticle) {
       urlDisplay.textContent = "Summary available";
 
-      // executes contentScript
+      // Display summarize button in popup
+      const summaryButton = document.createElement('button');
+      summaryButton.innerText = 'Summarize Article';
+      document.body.appendChild(summaryButton)
+      summaryButton.addEventListener('click', () => {
+        
+      })
+
+      // Display settings button in popup
+      const settingsButton = document.createElement('button');
+      settingsButton.innerText = 'Settings';
+      document.body.appendChild(settingsButton)
+      settingsButton.addEventListener('click', () => {
+        
+      })
+
+      // Execute contentScript
       // TO FIX: script only executes once
       chrome.scripting.executeScript({
         target: {tabId: currentTab.id},
@@ -24,14 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // listens for contentScript
+  // Listen for contentScript
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message);
     if (message) {
       sendResponse("Received message in background script:" + message)
       urlDisplay.textContent = "Article Title: " + message;
-      const button = document.createElement('button');
-      button.innerText = 'Summarize Article';
+      summary = document.getElementById("summary");
+      summary.textContent = generateSummary(message)
     }     
   });
 });
@@ -39,4 +53,27 @@ document.addEventListener("DOMContentLoaded", function () {
 function isWikipediaURL(url) {
   // Check if the URL contains the Wikipedia domain and "/wiki/" in the path
   return url.includes("wikipedia.org") && url.includes("/wiki/");
+}
+
+async function generateSummary(topic) {
+  try {
+    const response = await fetch("../api/summarize", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ topic: topic }),
+    });
+
+    const data = await response.json();
+    if (response.status !== 200) {
+      throw data.error || new Error(`Request failed with status ${response.status}`);
+    }
+
+    return data.result
+  } catch(error) {
+    // Consider implementing your own error handling logic here
+    console.error(error);
+    alert(error.message);
+  }
 }
