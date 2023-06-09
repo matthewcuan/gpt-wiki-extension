@@ -23,16 +23,4 @@ cd gpt-wiki-summary
 
 To run:
 
-```
-npm install
-npm start
-```
-
-"content_scripts": [
-      {
-        "matches": ["https://en.wikipedia.org/wiki/*"],
-        "js": ["contentScript.js"]
-      }
-    ],
-
-
+Instructions available [here](https://support.google.com/chrome/a/answer/2714278?hl=en) at "Step 2: Test the app or extension" section

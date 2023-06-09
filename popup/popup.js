@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentTab = tabs[0];
 
     // executes contentScript
+    // TO FIX: script only executes once upon action
     chrome.scripting.executeScript({
       target: {tabId: currentTab.id},
       files: ['content-script.js']
