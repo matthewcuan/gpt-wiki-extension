@@ -7,12 +7,6 @@
       "activeTab",
       "scripting"
     ],
-    "content_scripts": [
-      {
-        "matches": ["https://en.wikipedia.org/wiki/*"],
-        "js": ["contentScript.js"]
-      }
-    ],
     "action": {
       "default_title": "Wiki Summary",
       "default_icon": "assets/images/icon.png",

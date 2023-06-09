@@ -27,3 +27,12 @@ To run:
 npm install
 npm start
 ```
+
+"content_scripts": [
+      {
+        "matches": ["https://en.wikipedia.org/wiki/*"],
+        "js": ["contentScript.js"]
+      }
+    ],
+
+

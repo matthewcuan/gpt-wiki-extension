@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const currentTab = tabs[0];
+
+    chrome.scripting.executeScript({
+      target: {tabId: currentTab.id},
+      files: ['contentScript.js']
+    });
+
     console.log(currentTab.id)
     const urlDisplay = document.getElementById("urlDisplay");
     const isWikipediaArticle = isWikipediaURL(currentTab.url);
@@ -15,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message);
+    sendResponse("Received message in background script:" + message)
     urlDisplay.textContent = "Article Title: " + message;
   });
 });
