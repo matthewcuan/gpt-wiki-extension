@@ -15,7 +15,7 @@ async function generateSummary(topic) {
   const response = await fetch("https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions/gpt-3.5-turbo", {
     method: "POST",
     headers: {
-      "Authorization": "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",
+      "Authorization": "",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
