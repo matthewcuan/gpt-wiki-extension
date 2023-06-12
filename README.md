@@ -16,12 +16,20 @@ openai
 
 To get started:
 
+Clone the repository:
+
 ```
 git clone https://github.com/matthewcuan/gpt-wiki-summary
 ```
+
+Change working directry to correct repo:
+
 ```
 cd gpt-wiki-summary
 ```
+
+Install dependencies:
+
 ```
 npm install
 ```
