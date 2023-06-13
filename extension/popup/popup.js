@@ -11,21 +11,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isWikipediaArticle) {
       urlDisplay.textContent = "Summary available";
 
-      // Display summarize button in popup
-      const summaryButton = document.createElement('button');
-      summaryButton.innerText = 'Summarize Article';
-      document.body.appendChild(summaryButton)
-      summaryButton.addEventListener('click', () => {
+      // // Display summarize button in popup
+      // const summaryButton = document.createElement('button');
+      // summaryButton.innerText = 'Summarize Article';
+      // document.body.appendChild(summaryButton)
+      // summaryButton.addEventListener('click', () => {
         
-      })
+      // })
 
-      // Display settings button in popup
-      const settingsButton = document.createElement('button');
-      settingsButton.innerText = 'Settings';
-      document.body.appendChild(settingsButton)
-      settingsButton.addEventListener('click', () => {
+      // // Display settings button in popup
+      // const settingsButton = document.createElement('button');
+      // settingsButton.innerText = 'Settings';
+      // document.body.appendChild(settingsButton)
+      // settingsButton.addEventListener('click', () => {
         
-      })
+      // })
 
       // Execute contentScript
       // TO FIX: script only executes once upon opening
@@ -40,13 +40,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Listen for contentScript
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    console.log(message);
-    if (message) {
-      sendResponse("Received message in background script: " + message)
-      urlDisplay.textContent = "Article Title: " + message;
+    console.log(message.title);
+    if (message.title) {
+      sendResponse("Received message in background script: " + message.title)
+      urlDisplay.textContent = message.title;
       summary = document.getElementById("summary");
+      summary.textContent = "Loading..."
       
-      chrome.runtime.sendMessage({ action: "generateSummary", topic : message }, (response) => {
+      chrome.runtime.sendMessage({ action: "generateSummary", topic : message.title }, (response) => {
         console.log(response.fact)
         summary.textContent = response.fact;
       })
