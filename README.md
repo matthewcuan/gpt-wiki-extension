@@ -14,7 +14,7 @@ openai, cors, dotenv, express
 
 ## Deployment
 
-To get started:
+### To Get Started:
 
 Clone the repository:
 
@@ -34,6 +34,25 @@ Install dependencies:
 npm install
 ```
 
-To run:
+### To Run:
 
-Instructions available [here](https://support.google.com/chrome/a/answer/2714278?hl=en) at "Step 2: Test the app or extension" section
+Run server
+```
+node server.js
+```
+
+Load extension into browser
+
+- Navigate to [chrome://extensions/](chrome://extensions/) on a Chrome desktop browser
+
+- Switch to Developer Mode (in top right corner)
+
+- Select "Load Unpacked" (in top left corner) and select "extension" folder within respository (extension)
+
+### To Use:
+
+Pin extension in browser
+
+Navigate to Wikipedia article
+
+Click extension
