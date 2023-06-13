@@ -2,7 +2,6 @@
   "name": "gpt-wiki-summary",
   "description": "",
   "version": "1.0.0",
-  "main": "content.js",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
