@@ -6,7 +6,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 
 const app = express();
-
+app.use(express.json());
 app.use(cors());
 
 const configuration = new Configuration({
@@ -25,15 +25,16 @@ app.post('/api/summarize', async (req, res) => {
         return;
       }
     
-    console.log(req.topic)
-    const topic = req.topic || '';
+    console.log(req.body)
+    const topic = req.body.topic || '';
     
     try {
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Provide one sentence about ${topic}`,
+        prompt: `Provide one fact about ${topic}`,
         temperature: 0.6,
     });
+    console.log(completion.data.choices[0].text)
     res.status(200).json({ result: completion.data.choices[0].text });
     } catch(error) {
         if (error.response) {
