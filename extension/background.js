@@ -1,8 +1,9 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "generateSummary") {
     generateSummary(request.topic)
-      .then(summary => {
-        sendResponse({ summary });
+      .then(response => {
+        console.log("received, sending " + response)
+        sendResponse({ fact : response });
       })
       .catch(error => {
         sendResponse({ error: error.message });
@@ -12,23 +13,26 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 async function generateSummary(topic) {
-  const response = await fetch("https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions/gpt-3.5-turbo", {
-    method: "POST",
-    headers: {
-      "Authorization": "",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      prompt: `Summarize ${topic}`,
-      max_tokens: 100
-    })
-  });
+  try {
+    const response = await fetch("http://localhost:3000/api/summarize", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ topic: topic }),
+    });
 
-  const data = await response.json();
+    console.log("request sent")
+    const data = await response.json();
+    if (response.status !== 200) {
+      throw data.error || new Error(`Request failed with status ${response.status}`);
+    }
 
-  if (response.ok) {
-    return data.choices[0].text;
-  } else {
-    throw new Error(data.error.message);
+    console.log(data.result)
+    return data.result
+  } catch(error) {
+    // Consider implementing your own error handling logic here
+    console.error(error);
+    alert(error.message);
   }
 }

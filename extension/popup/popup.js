@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
 
       // Execute contentScript
-      // TO FIX: script only executes once
+      // TO FIX: script only executes once upon opening
       chrome.scripting.executeScript({
         target: {tabId: currentTab.id},
         files: ['content-script.js']
@@ -42,10 +42,14 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message);
     if (message) {
-      sendResponse("Received message in background script:" + message)
+      sendResponse("Received message in background script: " + message)
       urlDisplay.textContent = "Article Title: " + message;
       summary = document.getElementById("summary");
-      summary.textContent = generateSummary(message);
+      
+      chrome.runtime.sendMessage({ action: "generateSummary", topic : message }, (response) => {
+        console.log(response.fact)
+        summary.textContent = response.fact;
+      })
     }     
   });
 });
@@ -55,27 +59,4 @@ function isWikipediaURL(url) {
   return url.includes("wikipedia.org") && url.includes("/wiki/");
 }
 
-async function generateSummary(topic) {
-  try {
-    const response = await fetch("http://localhost:3000/api/summarize", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ topic: topic }),
-    });
 
-    console.log("request sent")
-    const data = await response.json();
-    if (response.status !== 200) {
-      throw data.error || new Error(`Request failed with status ${response.status}`);
-    }
-
-    console.log(data.result)
-    return data.result
-  } catch(error) {
-    // Consider implementing your own error handling logic here
-    console.error(error);
-    alert(error.message);
-  }
-}

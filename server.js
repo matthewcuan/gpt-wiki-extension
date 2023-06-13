@@ -33,6 +33,7 @@ app.post('/api/summarize', async (req, res) => {
         model: "text-davinci-003",
         prompt: `Provide one fact about ${topic}`,
         temperature: 0.6,
+        max_tokens: 50
     });
     console.log(completion.data.choices[0].text)
     res.status(200).json({ result: completion.data.choices[0].text });
