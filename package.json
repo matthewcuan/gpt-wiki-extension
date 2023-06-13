@@ -9,6 +9,9 @@
     "express": "^4.18.2",
     "openai": "^3.2.1"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
