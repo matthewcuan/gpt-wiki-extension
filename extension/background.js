@@ -1,6 +1,7 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "generateSummary") {
-    generateSummary(request.topic)
+    console.log(request.intro)
+    generateSummary(request.intro)
       .then(response => {
         console.log("received, sending " + response)
         sendResponse({ fact : response });
@@ -12,17 +13,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-async function generateSummary(topic) {
+async function generateSummary(intro) {
   try {
     const response = await fetch("http://localhost:3000/api/summarize", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ topic: topic }),
+      body: JSON.stringify({ intro: intro }),
     });
 
     console.log("request sent")
+    console.log(intro)
     const data = await response.json();
     if (response.status !== 200) {
       throw data.error || new Error(`Request failed with status ${response.status}`);

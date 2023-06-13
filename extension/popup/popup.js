@@ -41,13 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listen for contentScript
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log(message.title);
+    console.log(message.intro)
     if (message.title) {
       sendResponse("Received message in background script: " + message.title)
       urlDisplay.textContent = message.title;
       summary = document.getElementById("summary");
       summary.textContent = "Loading..."
-      
-      chrome.runtime.sendMessage({ action: "generateSummary", topic : message.title }, (response) => {
+      console.log(message.intro)
+      chrome.runtime.sendMessage({ action: "generateSummary", intro : message.intro }, (response) => {
         console.log(response.fact)
         summary.textContent = response.fact;
       })
