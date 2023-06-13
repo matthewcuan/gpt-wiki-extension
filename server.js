@@ -5,31 +5,52 @@ import cors from "cors";
 import { Configuration, OpenAIApi } from "openai";
 
 
+const app = express();
+
+app.use(cors());
+
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
 
 const openai = new OpenAIApi(configuration);
 
-async function generateSummary(topic) {
-    const response = await fetch("https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions/gpt-3.5-turbo", {
-      method: "POST",
-      headers: {
-        "Authorization": "",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        prompt: `Summarize ${topic}`,
-        max_tokens: 100
-      })
+app.post('/api/summarize', async (req, res) => {
+    if (!configuration.apiKey) {
+        res.status(500).json({
+          error: {
+            message: "OpenAI API key not configured, please follow instructions in README.md",
+          }
+        });
+        return;
+      }
+    
+    console.log(req.topic)
+    const topic = req.topic || '';
+    
+    try {
+    const completion = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: `Provide one sentence about ${topic}`,
+        temperature: 0.6,
     });
-  
-    const data = await response.json();
-  
-    if (response.ok) {
-      return data.choices[0].text;
-    } else {
-      throw new Error(data.error.message);
+    res.status(200).json({ result: completion.data.choices[0].text });
+    } catch(error) {
+        if (error.response) {
+            console.error(error.response.status, error.response.data);
+            res.status(error.response.status).json(error.response.data);
+        } else {
+            console.error(`Error with OpenAI API request: ${error.message}`);
+            res.status(500).json({
+            error: {
+                message: 'An error occurred during your request.',
+            }
+            });
+        }
     }
-  }
-  
+})
+
+const port = 3000; // Choose the desired port number
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
