@@ -1,6 +1,6 @@
 {
-  "name": "gptsummaryapp",
-  "description": "## Overview",
+  "name": "gpt-wiki-summary",
+  "description": "",
   "version": "1.0.0",
   "main": "content.js",
   "dependencies": {
