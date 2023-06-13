@@ -10,7 +10,7 @@ Languages: JavaScript, HTML, CSS
 
 ## Dependencies
 
-openai
+openai, cors, dotenv, express
 
 ## Deployment
 
