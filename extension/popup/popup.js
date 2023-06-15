@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(message.intro)
       chrome.runtime.sendMessage({ action: "generateSummary", intro : message.intro }, (response) => {
         console.log(response.fact)
-        summary.textContent = response.fact;
+        summary.innerHTML = response.fact;
       })
     }     
   });

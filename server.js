@@ -31,9 +31,9 @@ app.post('/api/summarize', async (req, res) => {
     try {
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Summarize the following into two short bullet points: ${intro}`,
+        prompt: `Summarize the following into two short bullet points: ${intro}. Return it in html format`,
         temperature: 0.6,
-        max_tokens: 50
+        max_tokens: 80
     });
     console.log(completion.data.choices[0].text)
     res.status(200).json({ result: completion.data.choices[0].text });
