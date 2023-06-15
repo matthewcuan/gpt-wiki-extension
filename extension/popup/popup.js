@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isWikipediaArticle) {
       urlDisplay.textContent = "Summary available";
       notice = document.getElementById("notice");
+      notice.textContent = "Please refresh the page and run the extension again."
 
       // // Display summarize button in popup
       // const summaryButton = document.createElement('button');
@@ -36,14 +37,15 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     } else {
       urlDisplay.textContent = "Not a Wikipedia article";
+      notice.textContent = "This extension only works on Wikipedia articles."
     }
   });
 
   // Listen for contentScript
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    console.log(message.title);
-    console.log(message.intro)
     if (message.title) {
+      console.log(message.title)
+      console.log(message.intro)
       sendResponse("Received message in background script: " + message.title)
       urlDisplay.textContent = message.title;
       console.log(message.intro)
@@ -55,11 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
           summary.innerHTML = response.fact;
         }
       })
-    }
+    } else {
       
-    }     
-  );
+    } 
   });
+});
   
 function isWikipediaURL(url) {
   // Check if the URL contains the Wikipedia domain and "/wiki/" in the path

@@ -1,11 +1,13 @@
 console.log("scraping")
 
+
 // Extract the article title
 const title = document.querySelector("#firstHeading").textContent;
 const introHTML = document.querySelector("#mw-content-text .mw-parser-output p:not(.mw-empty-elt)");
-console.log(introHTML)
-const intro = introHTML.textContent
-console.log(intro)
+console.log(introHTML);
+const intro = introHTML.textContent;
+console.log(intro);
+
 
 // send article title to popup
 chrome.runtime.sendMessage({ title : title, intro : intro }, (response) => {
