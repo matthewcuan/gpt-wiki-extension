@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (isWikipediaArticle) {
       urlDisplay.textContent = "Summary available";
+      notice = document.getElementById("notice");
 
       // // Display summarize button in popup
       // const summaryButton = document.createElement('button');
@@ -45,16 +46,20 @@ document.addEventListener("DOMContentLoaded", function () {
     if (message.title) {
       sendResponse("Received message in background script: " + message.title)
       urlDisplay.textContent = message.title;
-      summary = document.getElementById("summary");
-      summary.textContent = "Loading..."
       console.log(message.intro)
+      notice.textContent = "Server is not running. Check README for instructions."
       chrome.runtime.sendMessage({ action: "generateSummary", intro : message.intro }, (response) => {
-        console.log(response.fact)
-        summary.innerHTML = response.fact;
+        if (response.fact) {
+          summary.textContent = "Loading..."
+          console.log(response.fact)
+          summary.innerHTML = response.fact;
+        }
       })
+    }
+      
     }     
+  );
   });
-});
   
 function isWikipediaURL(url) {
   // Check if the URL contains the Wikipedia domain and "/wiki/" in the path
