@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isWikipediaArticle) {
       urlDisplay.textContent = "Summary available";
       notice = document.getElementById("notice");
-      notice.textContent = "Please refresh the page and run the extension again."
+      
 
       // // Display summarize button in popup
       // const summaryButton = document.createElement('button');
@@ -31,10 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Execute contentScript
       // TO FIX: script only executes once upon opening
-      chrome.scripting.executeScript({
-        target: {tabId: currentTab.id},
-        files: ['content-script.js']
-      });
+      try {
+        chrome.scripting.executeScript({
+          target: {tabId: currentTab.id},
+          files: ['content-script.js']
+        });
+      } catch(error) {
+        // TODO: handle error
+      }
+      
     } else {
       urlDisplay.textContent = "Not a Wikipedia article";
       notice.textContent = "This extension only works on Wikipedia articles."
@@ -51,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(message.intro)
       notice.textContent = "";
       summary.textContent = "Loading..."
-      let returned = true
       generateSummary(message.intro);    
     }
   });
