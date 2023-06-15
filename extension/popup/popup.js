@@ -42,30 +42,37 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Listen for contentScript
-  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener( async function (message, sender, sendResponse) {
     if (message.title) {
       console.log(message.title)
       console.log(message.intro)
       sendResponse("Received message in background script: " + message.title)
       urlDisplay.textContent = message.title;
       console.log(message.intro)
-      notice.textContent = "Server is not running. Check README for instructions."
-      chrome.runtime.sendMessage({ action: "generateSummary", intro : message.intro }, (response) => {
-        if (response.fact) {
-          summary.textContent = "Loading..."
-          console.log(response.fact)
-          summary.innerHTML = response.fact;
-        }
-      })
-    } else {
-      
-    } 
+      notice.textContent = "";
+      summary.textContent = "Loading..."
+      let returned = true
+      generateSummary(message.intro);    
+    }
   });
 });
   
 function isWikipediaURL(url) {
   // Check if the URL contains the Wikipedia domain and "/wiki/" in the path
   return url.includes("wikipedia.org") && url.includes("/wiki/");
+}
+
+async function generateSummary(data) {
+  chrome.runtime.sendMessage({ action: "generateSummary", intro : data }, (response) => {
+    if (response.fact) {
+      console.log(response.fact)
+      summary.innerHTML = response.fact;
+    } else if (response.error) {
+      console.log(response.error)
+      notice.textContent = "Server is not running. Check README for instructions.";
+      summary.textContent = "";
+    }
+  })
 }
 
 

@@ -16,8 +16,9 @@ h1 {
 
 #notice {
     text-align: center;
-    color: rgba(235, 34, 34, 0.928);
+    color: rgba(235, 34, 34, 0.892);
     margin: 0;
+    padding: 5px;
 }
 
 p {
