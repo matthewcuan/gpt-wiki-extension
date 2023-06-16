@@ -50,13 +50,15 @@ async function generateSummary(data) {
   chrome.runtime.sendMessage({ action: "generateSummary", intro : data }, (response) => {
     // Check if server is running
     if (response.fact) {
-      summary.innerHTML = response.fact;
+      let styled = response.fact.replace(/<br>/g, `<span class="br"></span>`);
+      summary.innerHTML = styled
     // If not running, display error 
     } else if (response.error) {
       notice.textContent = "Server is not running. Check README for instructions.";
       summary.textContent = "";
     }
   })
+
 }
 
 
