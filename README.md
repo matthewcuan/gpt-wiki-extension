@@ -36,6 +36,10 @@ npm install
 
 ### To Run:
 
+Configure your environment
+- Make a copy of .env.example, and rename it to .env
+- Insert your API key
+
 Run server
 ```
 node server.js
