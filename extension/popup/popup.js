@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
       sendResponse("Received message in background script: " + message.title)
       urlDisplay.textContent = message.title;
       notice.textContent = "";
-      summary.textContent = "Loading..."
+      summary.textContent = "Generating summary..."
       generateSummary(message.intro);    
     }
   });
