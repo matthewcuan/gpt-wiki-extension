@@ -1,10 +1,10 @@
-# ChatGPT Chrome Extension Wiki Summary
+# ChatGPT Chrome Extension: Wikipedia Summary
 
 ![Demo](extension/assets/demo.gif)
 
 ## Overview
 
-Chrome extension that condenses Wikipedia articles into a one page, bullet point summary, will utilize ChatGPT to summarize the articles
+Chrome extension that summarizes Wikipedia article introductions into two short bullet points using ChatGPT
 
 ## Technologies
 
