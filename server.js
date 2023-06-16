@@ -31,9 +31,9 @@ app.post('/api/summarize', async (req, res) => {
     try {
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Summarize the following into two bullet points: ${intro}. 
-                Add a <br> tag after each bullet point. Limit each bullet point
-                to 12 words.`,
+        prompt: `Summarize the text provided below into two bullet points. 
+        Add a <br> tag after each bullet point. 
+        Limit each bullet point to 12 words. Text: ${intro}.`,
         temperature: 0.6,
         max_tokens: 100
     });

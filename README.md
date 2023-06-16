@@ -57,8 +57,8 @@ Load extension into browser
 
 ### To Use:
 
-Pin extension in browser
+- Pin extension in browser
 
-Navigate to Wikipedia article
+- Navigate to Wikipedia article
 
-Click extension
+- Click extension
