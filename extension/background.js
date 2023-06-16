@@ -1,3 +1,4 @@
+// Listen for request from extension popup
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "generateSummary") {
     console.log(request.intro)
@@ -13,6 +14,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
+// Send request to chatGPT API
 async function generateSummary(intro) {
   try {
     const response = await fetch("http://localhost:3000/api/summarize", {
@@ -23,18 +25,13 @@ async function generateSummary(intro) {
       body: JSON.stringify({ intro: intro }),
     });
 
-    console.log("request sent")
-    console.log(intro)
     const data = await response.json();
     if (response.status !== 200) {
       console.log(data.error)
-      // throw data.error || new Error(`Request failed with status ${response.status}`);
     }
 
-    console.log(data.result)
     return data.result
   } catch(error) {
     throw error
-    // alert(error.message);
   }
 }

@@ -1,4 +1,4 @@
-console.log("scraping")
+// Interact directly with wiki webpage
 
 try {
     // Extract the article title
@@ -9,7 +9,7 @@ try {
     console.log(intro);
 
 
-    // send article title to popup
+    // Send article title to popup
     chrome.runtime.sendMessage({ title : title, intro : intro }, (response) => {
         console.log(response)
     });

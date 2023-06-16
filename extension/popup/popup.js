@@ -29,8 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
       // })
 
-      // Execute contentScript
-      // TO FIX: script only executes once upon opening
+      // Execute content script
       try {
         chrome.scripting.executeScript({
           target: {tabId: currentTab.id},
@@ -49,11 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listen for contentScript
   chrome.runtime.onMessage.addListener( async function (message, sender, sendResponse) {
     if (message.title) {
-      console.log(message.title)
-      console.log(message.intro)
       sendResponse("Received message in background script: " + message.title)
       urlDisplay.textContent = message.title;
-      console.log(message.intro)
       notice.textContent = "";
       summary.textContent = "Loading..."
       generateSummary(message.intro);    
@@ -62,17 +58,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
   
 function isWikipediaURL(url) {
-  // Check if the URL contains the Wikipedia domain and "/wiki/" in the path
+  // Check if the current tab is a Wikipedia article
   return url.includes("wikipedia.org") && url.includes("/wiki/");
 }
 
+// Send API request to background.js
 async function generateSummary(data) {
   chrome.runtime.sendMessage({ action: "generateSummary", intro : data }, (response) => {
+    // Check if server is running
     if (response.fact) {
-      console.log(response.fact)
       summary.innerHTML = response.fact;
+    // If not running, display error 
     } else if (response.error) {
-      console.log(response.error)
       notice.textContent = "Server is not running. Check README for instructions.";
       summary.textContent = "";
     }

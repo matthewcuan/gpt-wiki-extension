@@ -15,6 +15,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
+// Summartize given input
 app.post('/api/summarize', async (req, res) => {
     if (!configuration.apiKey) {
         res.status(500).json({
@@ -25,7 +26,6 @@ app.post('/api/summarize', async (req, res) => {
         return;
       }
     
-    console.log(req.body.intro)
     const intro = req.body.intro || '';
     
     try {
@@ -35,7 +35,6 @@ app.post('/api/summarize', async (req, res) => {
         temperature: 0.6,
         max_tokens: 100
     });
-    console.log(completion.data.choices[0].text)
     res.status(200).json({ result: completion.data.choices[0].text });
     } catch(error) {
         if (error.response) {
@@ -52,7 +51,7 @@ app.post('/api/summarize', async (req, res) => {
     }
 })
 
-const port = 3000; // Choose the desired port number
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
