@@ -1,10 +1,8 @@
 // Listen for request from extension popup
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "generateSummary") {
-    console.log(request.intro)
     generateSummary(request.intro)
       .then(response => {
-        console.log("received, sending " + response)
         sendResponse({ fact : response });
       })
       .catch(error => {

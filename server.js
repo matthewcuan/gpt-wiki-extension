@@ -15,7 +15,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-// Summartize given input
+// Summarize given input
 app.post('/api/summarize', async (req, res) => {
     if (!configuration.apiKey) {
         res.status(500).json({
@@ -31,7 +31,9 @@ app.post('/api/summarize', async (req, res) => {
     try {
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Summarize the following into two short bullet points: ${intro}. Add a <br> tag after each bullet point`,
+        prompt: `Summarize the following into two bullet points: ${intro}. 
+                Add a <br> tag after each bullet point. Limit each bullet point
+                to 12 words.`,
         temperature: 0.6,
         max_tokens: 100
     });

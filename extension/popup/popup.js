@@ -11,23 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isWikipediaArticle) {
       urlDisplay.textContent = "Summary available";
       notice = document.getElementById("notice");
-      
-
-      // // Display summarize button in popup
-      // const summaryButton = document.createElement('button');
-      // summaryButton.innerText = 'Summarize Article';
-      // document.body.appendChild(summaryButton)
-      // summaryButton.addEventListener('click', () => {
-        
-      // })
-
-      // // Display settings button in popup
-      // const settingsButton = document.createElement('button');
-      // settingsButton.innerText = 'Settings';
-      // document.body.appendChild(settingsButton)
-      // settingsButton.addEventListener('click', () => {
-        
-      // })
 
       // Execute content script
       try {
