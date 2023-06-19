@@ -21,7 +21,7 @@ openai, cors, dotenv, express
 Clone the repository:
 
 ```
-git clone https://github.com/matthewcuan/gpt-wiki-summary
+git clone https://github.com/matthewcuan/gpt-wiki-extension
 ```
 
 Change working directry to correct repo:
